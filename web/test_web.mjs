@@ -7,7 +7,7 @@ import { readFileSync } from "node:fs";
 import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import { webcrypto } from "node:crypto";
-import { pack7, unpack7, Updater } from "./fm1ota.js";
+import { pack7, unpack7, Updater, FM1_PORT } from "./fm1ota.js";
 import { productOf, logicalImage, validateStockPackage } from "./fm1pkg.js";
 
 const realTimeout = globalThis.setTimeout;
@@ -83,7 +83,7 @@ class FakeFM1 {
         this.attach(appId, "app");
     }
     attach(id, role) {
-        const name = role === "loader" ? "ota-FM-1" : "Felucca";
+        const name = role === "loader" ? "FMini-1 Update" : "FM-1 Midi";   /* the names macOS gave them (2026-11-11) */
         const out = new Port(name, (b) => this.rx(b));
         const inp = new Port(name, () => null);
         this.role = role;
@@ -193,6 +193,10 @@ ok(unpack7(pack7(bytes)).slice(0, 300).every((b, i) => b === bytes[i]), "pack7 /
     const code = await new Updater(access, quiet).resume(image, quiet).then(() => "resumed", (e) => e.code);
     ok(code === "foreign", "another firmware's update mode (ota-FM-1_015) is not written");
 }
+
+ok(["FM-1 Midi", "FMini-1 Update", "Felucca Update", "FM-1"].every((n) => FM1_PORT.test(n)) &&
+   !["IAC Driver Bus 1", "Network Session 1", "Launchkey Mini MK3"].some((n) => FM1_PORT.test(n)),
+   "the FM-1's ports are probed under the names macOS gives them, other gear never");
 
 {
     const access = {};

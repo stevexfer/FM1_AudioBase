@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Copyright (C) 2026 Leo Kuroshita (@kurogedelic), Hügelton Instruments
+// Modified, 2026, from SLOOP 2.7: the update loader's port under the name macOS remembers (FM1_PORT)
 //
 // The FM-1 USB-MIDI update protocol (M-UPGRADE compatible) over WebMIDI.
 // Step 1: the running firmware reads parts of the package and stages the update
@@ -16,8 +17,9 @@ const IS_OTA = (id) => /^ota-/i.test(id.model);
 export const OUR_LOADER = (id) => /^ota-FM-1_9\d\d$/i.test(id.text);
 // the MIDI ports the installer may probe (never other gear): the FM-1 under SLOOP / Felucca ("Felucca"), under
 // CLIPPER ("Clipper", its sister firmware), under a firmware named after itself ("SLOOP"), the update loaders, and
-// the names Windows / macOS give the stock firmware
-export const FM1_PORT = /fm-1|felucca|sloop|clipper|ota|composite|sinco|usb-midi/i;
+// the names Windows / macOS give the stock firmware. macOS keeps the first name it saw for a USB ID: the update
+// loader (1209:0002) can come up as another firmware's loader, "FMini-1 Update" (as tools/fm1_install.py)
+export const FM1_PORT = /fm-1|fjord|felucca|fmini|update|sloop|clipper|ota|composite|sinco|usb-midi/i;
 
 // errors carry a code the pages translate: notfound, model, stopped, noloader, lost, noreturn,
 // mismatch (detail: the identity the device reports), badreq, foreign (detail: the loader's identity)

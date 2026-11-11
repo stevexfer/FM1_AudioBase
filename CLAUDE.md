@@ -32,7 +32,7 @@ Locus). Public repo: everything in English.
   `tests/update_tests.sh build/audiobase.fwsc build/app.bin` (STOCK_V15 / STOCK_V16: M-VAVE's official V15 / V16 `.fwsc`).
 - `sys/audio.c` acknowledges the ALNK half before rendering (ChoralRoot 0.18, heard on hardware); OTA sets
   `fw_audio_hold` so the app does not render; `fm1_cstart` raises the supplies to stock (SLOOP 2.7). Keep these.
-- Web installer: `web/` (fm1ota.js / fm1pkg.js are SLOOP 2.7's, vendored unchanged). `web/make_site.py [--release
+- Web installer: `web/` (fm1ota.js / fm1pkg.js are SLOOP 2.7's; fm1ota.js's FM1_PORT also takes the loader's macOS names). `web/make_site.py [--release
   build/release-X.Y]` -> `build/site`; `node web/test_web.mjs PKG` is the protocol test.
 - Releases: tag `vX.Y` (one digit each, identity FM-1_9XY) -> `.github/workflows/release.yml` (`tools/release.py`) ->
   `pages.yml`. Release notes in `docs/releases/X.Y.md`. `LICENSE`, `LICENSING.md`, `LICENSES/` travel with every package.

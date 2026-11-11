@@ -38,7 +38,7 @@ Every file in this tree that carries an `SPDX-License-Identifier: GPL-3.0-only` 
 | --- | --- | --- |
 | Felucca by Leo Kuroshita, Hügelton Instruments (<https://github.com/hugelton/Felucca>): the HAL, the update loader, USB-MIDI, USB audio, OTA, recovery, flash storage, the `.fwsc` packer and the command-line installer | GPL-3.0-only | `firmware/hal/`, `firmware/loader/`, `firmware/sys/`, `tools/` |
 | ORBIT by dspaudio (<https://github.com/dspaudio/orbit>), a fork of SLOOP: the platform GATOR was cut down from | GPL-3.0-only | as above |
-| SLOOP by isod89 (<https://github.com/isod89/sloop-fm1>), a fork of Felucca: the web install protocol (`fm1ota.js`, `fm1pkg.js`, unchanged from SLOOP 2.7), the stock supply levels at start | GPL-3.0-only | `web/fm1ota.js`, `web/fm1pkg.js`, `firmware/hal/fm1_sys.h` |
+| SLOOP by isod89 (<https://github.com/isod89/sloop-fm1>), a fork of Felucca: the web install protocol (`fm1pkg.js` unchanged from SLOOP 2.7; `fm1ota.js` from SLOOP 2.7 with the loader's macOS port names added), the stock supply levels at start | GPL-3.0-only | `web/fm1ota.js`, `web/fm1pkg.js`, `firmware/hal/fm1_sys.h` |
 | ChoralRoot by Quixotic7 (<https://github.com/Quixotic7/ChoralRootFM1>): the order of the audio interrupt's acknowledge (0.18); the release and Pages workflows follow its layout | GPL-3.0-only | `firmware/sys/audio.c`, `.github/workflows/` |
 | Terminus font by Dimitar Toshkov Zhekov: the UI text, rasterised into the firmware at build time (`tools/gen_font.py`) | SIL OFL 1.1 | `assets/fonts/ter-u16n.bdf`, `LICENSES/OFL-Terminus.txt` |
 | JieLi AC79 SDK by JieLi Technology: three of its files go into every `.fwsc` package (below) | Apache-2.0 | `tools/sdk/`, `LICENSES/Apache-2.0-JieLi-SDK.txt` |
