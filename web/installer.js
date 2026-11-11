@@ -79,9 +79,14 @@ const pkgCard = (p, first) => {
     title.textContent = `${p.title} ${p.version}`;
     const tagEl = Object.assign(document.createElement("span"), { className: "tag", textContent: p.tag });
     const small = Object.assign(document.createElement("small"), { textContent: p.desc });
+    const dl = Object.assign(document.createElement("a"), {
+        className: "dl", href: `firmware/${p.file}`, download: p.file,
+        textContent: `Download ${p.file}` + (p.size ? ` (${Math.round(p.size / 1024)} KB)` : ""),
+        title: `SHA-256 ${p.sha256}`,
+    });
     if (p.tag)
         title.append(tagEl);
-    label.append(input, title, small);
+    label.append(input, title, small, dl);
     return label;
 };
 
