@@ -1,0 +1,26 @@
+# the computer plays a 1 kHz sine at -6 dBFS: MASTER full, half (-12 dB more), off; then the visualizer (GLO) and back
+frames 20
+usbtone 1000 -6
+usbrec 2
+frames 40
+screen build/host/out/audiobase.ppm
+master 512
+frames 40
+screen build/host/out/audiobase_half.ppm
+master 0
+frames 40
+master 1023
+frames 20
+btn GLO down
+frames 1
+btn GLO up
+frames 120
+screen build/host/out/audiobase_vis.ppm
+leds
+btn GLO down
+frames 1
+btn GLO up
+frames 5
+screen build/host/out/audiobase_back.ppm
+leds
+wav build/host/out/audiobase.wav

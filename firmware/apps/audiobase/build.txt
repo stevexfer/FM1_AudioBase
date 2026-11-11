@@ -1,0 +1,8 @@
+# the computer's audio out to the FM-1 (sys/usb.c FW_USB_PLAY): what the app plays
+define FW_USB_PLAY=1
+# the FM-1's output, back to the computer as a USB audio input (sys/usb.c FELUCCA_UAC): what the codec plays
+define FELUCCA_UAC=1
+# the name a computer lists it under (MIDI, the audio output and input); "FM-1" in it: the installers look for that
+define FW_USB_PRODUCT="FM-1"
+# the visualizer is paced by the display's SPI, not by its own code
+small avis.c

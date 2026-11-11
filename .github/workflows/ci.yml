@@ -1,0 +1,79 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# Build and test every push and pull request: the FM1_AudioBase package and the demo app (the JieLi toolchain, natively on
+# ubuntu x86-64), the host simulator under ASan / UBSan, the storage test and the installer's protocol.
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    shell: bash
+
+env:
+  PYTHON_VERSION: "3.11"
+  PILLOW_VERSION: "11.1.0"
+  NODE_VERSION: "22"
+  CC: clang
+  CXX: clang++
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Python packages
+        run: python3 -m pip install --disable-pip-version-check "Pillow==$PILLOW_VERSION"
+
+      - name: Cache the JieLi toolchain
+        id: toolchain-cache
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ~/.jieli
+          key: jieli-toolchain-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('tools/get_toolchain.sh') }}
+
+      - name: Fetch the JieLi toolchain (pkgman.jieliapp.com)
+        if: steps.toolchain-cache.outputs.cache-hit != 'true'
+        run: sh tools/get_toolchain.sh "$HOME/.jieli"
+
+      - name: Build
+        run: |
+          set -euo pipefail
+          ulimit -n 8192 || true
+          ./build.sh
+          ./build.sh --app demo
+          ls -l build/*.fwsc
+
+      - name: Host simulator and tests
+        run: |
+          set -euo pipefail
+          python3 tools/sim.py
+          python3 tools/sim.py --app demo
+          python3 tools/sim.py --test
+
+      - name: Installer protocol and site
+        run: |
+          set -euo pipefail
+          node web/test_web.mjs build/audiobase.fwsc
+          python3 web/make_site.py
+          (cd build/site/firmware && sha256sum -c SHA256SUMS)

@@ -1,0 +1,106 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# Publish the web installer on GitHub Pages for a release.
+#   workflow_dispatch (version, ref) -> download audiobase-VERSION.fwsc from the release vVERSION,
+#                                       check them against its SHA256SUMS, web/make_site.py --release, deploy to Pages
+# release.yml starts it after it made the release. Settings -> Pages -> Source must be "GitHub Actions".
+name: pages
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version to publish, e.g. 0.1 (the release v0.1 must carry audiobase-0.1.fwsc)"
+        required: true
+        type: string
+      ref:
+        description: "Branch, tag or commit the site is built from (blank: the default branch)"
+        required: false
+        default: ""
+        type: string
+
+permissions: {}
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+defaults:
+  run:
+    shell: bash
+
+env:
+  PYTHON_VERSION: "3.11"
+
+jobs:
+  site:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    env:
+      VERSION: ${{ inputs.version }}
+    steps:
+      - name: Check the version
+        run: |
+          set -euo pipefail
+          if [[ ! "$VERSION" =~ ^[0-9]\.[0-9](-[A-Za-z0-9]+)?$ ]]; then
+            echo "::error::version '$VERSION' is not X.Y or X.Y-suffix (e.g. 0.1, without the v)"
+            exit 1
+          fi
+
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ inputs.ref || github.event.repository.default_branch }}
+
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Download the package from the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          rel="build/release-$VERSION"
+          mkdir -p "$rel"
+          for f in "audiobase-$VERSION.fwsc" SHA256SUMS; do
+            if ! gh release download "v$VERSION" --repo "$GITHUB_REPOSITORY" --pattern "$f" --dir "$rel" --clobber; then
+              echo "::error title=No $f in v$VERSION::The release v$VERSION does not exist or has no asset $f. Push the tag v$VERSION so release.yml builds it, then run pages.yml again."
+              exit 1
+            fi
+          done
+          (cd "$rel" && sha256sum -c SHA256SUMS)
+
+      - name: Make the site (web/make_site.py)
+        run: |
+          set -euo pipefail
+          python3 web/make_site.py --release "build/release-$VERSION"
+          for f in index.html installer.js fm1ota.js fm1pkg.js firmware/manifest.json firmware/SHA256SUMS \
+                   firmware/LICENSE firmware/LICENSING.md "firmware/audiobase-$VERSION.fwsc"; do
+            if [ ! -s "build/site/$f" ]; then
+              echo "::error::build/site/$f is missing"
+              exit 1
+            fi
+          done
+          (cd build/site/firmware && sha256sum -c SHA256SUMS)
+          find build/site -type f | sort
+
+      - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+        with:
+          path: build/site
+
+  deploy:
+    needs: site
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1

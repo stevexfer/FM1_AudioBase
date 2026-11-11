@@ -1,0 +1,7 @@
+*.fwsc binary
+*.bin binary
+*.boot binary
+*.png binary
+*.jpg binary
+*.bdf text eol=lf
+*.sh text eol=lf

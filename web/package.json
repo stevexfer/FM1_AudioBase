@@ -1,0 +1,5 @@
+{
+    "private": true,
+    "type": "module",
+    "scripts": { "test": "cd .. && node web/test_web.mjs build/audiobase.fwsc" }
+}

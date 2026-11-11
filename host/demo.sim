@@ -1,0 +1,25 @@
+# a chord from the keys, a knob turn, a MIDI note
+frames 10
+key 7 down
+key 11 down
+key 14 down
+frames 40
+knob K1 1
+knob K2 -12
+frames 30
+screen build/host/out/demo.ppm
+leds
+key 7 up
+key 11 up
+key 14 up
+frames 30
+midi 0x90 72 100
+frames 20
+midi 0x80 72 0
+frames 40
+btn OCT+ down
+frames 1
+btn OCT+ up
+frames 5
+screen build/host/out/demo2.ppm
+wav build/host/out/demo.wav

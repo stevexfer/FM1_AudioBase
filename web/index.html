@@ -1,0 +1,160 @@
+<!doctype html>
+<!-- SPDX-License-Identifier: GPL-3.0-only
+     Copyright (C) 2026 npi3pak
+     The FM1_AudioBase web installer: fm1ota.js / fm1pkg.js (Felucca's install protocol, via SLOOP 2.7), the packages and
+     their digests from firmware/manifest.json (web/make_site.py). -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<meta name="description" content="Install FM1_AudioBase, a USB audio firmware for the M-VAVE FM-1, from the browser.">
+<title>FM1_AudioBase Installer</title>
+<style>
+    :root {
+        --bg: #0b0b0c; --panel: #161618; --line: #2a2a2e; --fg: #ececec; --dim: #8c8c94;
+        --accent: #ff3d7f; --green: #4cc38a; --warn: #ffb547; --bad: #ff8a3d;
+        color-scheme: dark;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--fg);
+           font: 15px/1.55 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+    main { max-width: 600px; margin: 0 auto; padding: 32px 16px 64px; }
+    .logo { display: block; width: 180px; height: 180px; margin: 0 auto 16px; border-radius: 12px; }
+    h1 { font: 600 24px/1.2 ui-monospace, "SF Mono", Menlo, monospace; letter-spacing: .08em; margin: 0; text-align: center; }
+    h1 span { color: var(--accent); }
+    .sub { color: var(--dim); text-align: center; margin: 4px 0 0; }
+    .intro { margin: 20px 0 0; }
+    .links { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 18px; margin: 12px 0 0; font-size: 14px; }
+    h2 { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: var(--dim);
+         margin: 28px 0 10px; }
+    section { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 16px;
+              min-width: 0; overflow-wrap: anywhere; }
+    section.risk { border-color: var(--warn); }
+    section.risk h3 { margin: 0 0 6px; font-size: 15px; color: var(--warn); }
+    ul.check { margin: 0; padding-left: 20px; }
+    ul.check li { margin: 4px 0; }
+    .pkgs { display: grid; gap: 8px; }
+    .pkg { display: grid; grid-template-columns: auto 1fr; gap: 2px 10px; align-items: start; padding: 10px 12px;
+           border: 1px solid var(--line); border-radius: 8px; cursor: pointer; }
+    .pkg:has(input:checked) { border-color: var(--accent); }
+    .pkg input { margin: 4px 0 0; accent-color: var(--accent); }
+    .pkg b { font-weight: 600; }
+    .pkg small { grid-column: 2; color: var(--dim); font-size: 13px; min-width: 0; }
+    .pkg .tag { color: var(--accent); font-size: 12px; margin-left: 6px; }
+    input[type=file] { font: inherit; font-size: 13px; color: var(--dim); max-width: 100%; margin-top: 6px; }
+    .row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-top: 16px; }
+    button.go { font: inherit; font-weight: 600; background: var(--accent); color: #111; border: 0; border-radius: 8px;
+                padding: 9px 24px; cursor: pointer; }
+    button.go.alt { background: none; color: var(--fg); border: 1px solid var(--line); }
+    button:disabled { opacity: .35; cursor: default; }
+    progress { width: 100%; height: 6px; margin-top: 14px; accent-color: var(--accent); }
+    #status { margin: 10px 0 0; min-height: 1.5em; }
+    #status.ok { color: var(--green); }
+    #status.bad { color: var(--bad); }
+    details { margin-top: 10px; }
+    summary { color: var(--dim); font-size: 13px; cursor: pointer; }
+    pre { color: var(--dim); font-size: 12px; white-space: pre-wrap; word-break: break-all; max-height: 240px;
+          overflow: auto; margin: 8px 0 0; }
+    p { margin: 0 0 10px; }
+    p:last-child { margin-bottom: 0; }
+    .dim { color: var(--dim); font-size: 13px; }
+    a { color: var(--accent); }
+    ul.lic { margin: 0 0 10px; padding-left: 20px; }
+    ul.lic li { margin: 4px 0; }
+    footer { margin-top: 32px; color: var(--dim); font-size: 12px; text-align: center; }
+</style>
+</head>
+<body>
+<main>
+    <h1>FM1_<span>Audio</span>Base</h1>
+    <p class="sub">Firmware installer for the M-VAVE FM-1</p>
+    <p class="intro">FM1_AudioBase makes the FM-1 a USB audio interface named FM-1: what the computer plays comes out
+        of the FM-1, MASTER sets its volume, and the same sound goes back to the computer as a USB audio input. GLO
+        shows a visualizer of it.</p>
+    <p class="links">
+        <a href="https://github.com/stevexfer/FM1_AudioBase" target="_blank" rel="noopener">Source code</a>
+        <a href="https://github.com/stevexfer/FM1_AudioBase/releases" target="_blank" rel="noopener">Releases</a>
+    </p>
+
+    <h2>At your own risk</h2>
+    <section class="risk">
+        <h3>Installing custom firmware is at your own risk.</h3>
+        <p>FM1_AudioBase is unofficial firmware, provided as is, without any warranty. It is not made, endorsed or supported
+            by M-VAVE. A failed or interrupted install can leave the FM-1 unable to start until it is recovered with
+            a USB tool. You can return to the official firmware at any time (below).</p>
+    </section>
+
+    <h2>Before you install</h2>
+    <section>
+        <ul class="check">
+            <li>Charge the FM-1: it runs on its battery while writing.</li>
+            <li>Plug the cable straight into the computer, no hub. It must be a data cable.</li>
+            <li>Close apps that use MIDI: DAWs, M-UPGRADE, editors.</li>
+            <li>Keep the computer awake (the page asks for that itself) and leave the cable alone until it says Done.</li>
+            <li>Use Chrome or Edge: Safari and Firefox have no Web MIDI with SysEx.</li>
+        </ul>
+    </section>
+
+    <h2>Firmware</h2>
+    <section>
+        <div class="pkgs" id="pkgs"></div>
+        <div class="row">
+            <button class="go" id="go" type="button" disabled>Install</button>
+        </div>
+        <progress id="bar" max="100" value="0"></progress>
+        <p id="status" role="status" aria-live="polite"></p>
+        <details>
+            <summary>Detailed log</summary>
+            <pre id="log"></pre>
+        </details>
+    </section>
+
+    <h2>If something goes wrong</h2>
+    <section>
+        <p>The write stopped: reconnect the FM-1 and press Install again. It stays in update mode until the write is
+            finished.</p>
+        <p>The firmware does not start: after two failed boots in a row the FM-1 opens USB RESCUE by itself (or switch
+            it on holding OCT−). The installer works there too.</p>
+        <p>If power is lost mid-write, the FM-1 may stay dark with no USB device: charge it before installing.</p>
+        <p class="dim">Recovering an FM-1 that does not start:
+            <a href="https://github.com/Quixotic7/MvaveFM1Unbricker" target="_blank" rel="noopener">MvaveFM1Unbricker</a></p>
+    </section>
+
+    <h2>Back to the official firmware</h2>
+    <section>
+        <p>Writes M-VAVE's FM-1 V15 the same way. Only the unmodified official file is accepted: its SHA-256 is
+            checked before writing, and the file never leaves your browser.</p>
+        <p class="dim">Download FM-1 V15 (Downloads → PC Firmware):
+            <a href="https://www.m-vave.com/download" target="_blank" rel="noopener">m-vave.com/download</a></p>
+        <input type="file" id="stockfile" accept=".fwsc">
+        <div class="row">
+            <button class="go alt" id="stockgo" type="button" disabled>Write the official V15</button>
+        </div>
+    </section>
+
+    <h2>Licences</h2>
+    <section>
+        <p>FM1_AudioBase is free software under the GNU General Public License v3.0 only, provided without any warranty.
+            <a id="source" href="https://github.com/stevexfer/FM1_AudioBase" target="_blank" rel="noopener">Complete source code of this version</a>.</p>
+        <ul class="lic">
+            <li>FM1_AudioBase, MOOD_FM1 and GATOR, and the Felucca platform they are built on (Leo Kuroshita, Hügelton Instruments; through ORBIT
+                and SLOOP): GPL-3.0-only, <a href="firmware/LICENSE">licence text</a></li>
+            <li>Terminus font by Dimitar Toshkov Zhekov: SIL Open Font License 1.1,
+                <a href="firmware/LICENSES/OFL-Terminus.txt">licence text</a></li>
+            <li>Three JieLi AC79 SDK files in every package (JieLi Technology, unmodified): Apache-2.0,
+                <a href="firmware/LICENSES/Apache-2.0-JieLi-SDK.txt">licence text</a></li>
+        </ul>
+        <p class="dim">Details: <a href="firmware/LICENSING.md">LICENSING.md</a> ·
+            checksums: <a href="firmware/SHA256SUMS">SHA256SUMS</a></p>
+    </section>
+
+    <footer>
+        <p>FM1_AudioBase is free software under the GPL-3.0, without warranty.
+            <a href="https://github.com/stevexfer/FM1_AudioBase#credits" target="_blank" rel="noopener">Source code, credits and licences</a>.
+            Not affiliated with M-VAVE.</p>
+    </footer>
+</main>
+<script type="module" src="installer.js"></script>
+</body>
+</html>
