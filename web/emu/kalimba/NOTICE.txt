@@ -1,0 +1,8 @@
+Kalimba samples
+
+From the Kalimba multisample in Serum 2's factory content, by Steve Duda
+(Xfer Records), published here by their owner. Converted by tools/kalimba.py
+(mono, 32 kHz, 2.5 s, FLAC).
+
+They are not covered by the emulator's MIT licence or any firmware's licence:
+they may be used only as part of this emulator page.

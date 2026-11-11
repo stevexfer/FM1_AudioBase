@@ -1,0 +1,356 @@
+[
+ {
+  "file": "kalimba-01-53.flac",
+  "key": 53,
+  "zone": 0,
+  "tune": -9
+ },
+ {
+  "file": "kalimba-01-55.flac",
+  "key": 55,
+  "zone": 0,
+  "tune": -16
+ },
+ {
+  "file": "kalimba-01-57.flac",
+  "key": 57,
+  "zone": 0,
+  "tune": -16
+ },
+ {
+  "file": "kalimba-01-59.flac",
+  "key": 59,
+  "zone": 0,
+  "tune": -33
+ },
+ {
+  "file": "kalimba-01-60.flac",
+  "key": 60,
+  "zone": 0,
+  "tune": -2
+ },
+ {
+  "file": "kalimba-01-62.flac",
+  "key": 62,
+  "zone": 0,
+  "tune": -10
+ },
+ {
+  "file": "kalimba-01-65.flac",
+  "key": 65,
+  "zone": 0,
+  "tune": -24
+ },
+ {
+  "file": "kalimba-01-67.flac",
+  "key": 67,
+  "zone": 0,
+  "tune": -43
+ },
+ {
+  "file": "kalimba-01-69.flac",
+  "key": 69,
+  "zone": 0,
+  "tune": -23
+ },
+ {
+  "file": "kalimba-01-71.flac",
+  "key": 71,
+  "zone": 0,
+  "tune": -17
+ },
+ {
+  "file": "kalimba-01-72.flac",
+  "key": 72,
+  "zone": 0,
+  "tune": -25
+ },
+ {
+  "file": "kalimba-01-74.flac",
+  "key": 74,
+  "zone": 0,
+  "tune": -23
+ },
+ {
+  "file": "kalimba-01-76.flac",
+  "key": 76,
+  "zone": 0,
+  "tune": -23
+ },
+ {
+  "file": "kalimba-01-77.flac",
+  "key": 77,
+  "zone": 0,
+  "tune": -29
+ },
+ {
+  "file": "kalimba-01-79.flac",
+  "key": 79,
+  "zone": 0,
+  "tune": -19
+ },
+ {
+  "file": "kalimba-01-81.flac",
+  "key": 81,
+  "zone": 0,
+  "tune": -18
+ },
+ {
+  "file": "kalimba-01-83.flac",
+  "key": 83,
+  "zone": 0,
+  "tune": -28
+ },
+ {
+  "file": "kalimba-01-84.flac",
+  "key": 84,
+  "zone": 0,
+  "tune": -31
+ },
+ {
+  "file": "kalimba-01-86.flac",
+  "key": 86,
+  "zone": 0,
+  "tune": -21
+ },
+ {
+  "file": "kalimba-01-88.flac",
+  "key": 88,
+  "zone": 0,
+  "tune": -6
+ },
+ {
+  "file": "kalimba-02-53.flac",
+  "key": 53,
+  "zone": 1,
+  "tune": -9
+ },
+ {
+  "file": "kalimba-02-55.flac",
+  "key": 55,
+  "zone": 1,
+  "tune": -16
+ },
+ {
+  "file": "kalimba-02-57.flac",
+  "key": 57,
+  "zone": 1,
+  "tune": -16
+ },
+ {
+  "file": "kalimba-02-60.flac",
+  "key": 60,
+  "zone": 1,
+  "tune": -2
+ },
+ {
+  "file": "kalimba-02-62.flac",
+  "key": 62,
+  "zone": 1,
+  "tune": -10
+ },
+ {
+  "file": "kalimba-02-64.flac",
+  "key": 64,
+  "zone": 1,
+  "tune": -20
+ },
+ {
+  "file": "kalimba-02-65.flac",
+  "key": 65,
+  "zone": 1,
+  "tune": -24
+ },
+ {
+  "file": "kalimba-02-67.flac",
+  "key": 67,
+  "zone": 1,
+  "tune": -43
+ },
+ {
+  "file": "kalimba-02-71.flac",
+  "key": 71,
+  "zone": 1,
+  "tune": -17
+ },
+ {
+  "file": "kalimba-02-72.flac",
+  "key": 72,
+  "zone": 1,
+  "tune": -25
+ },
+ {
+  "file": "kalimba-02-74.flac",
+  "key": 74,
+  "zone": 1,
+  "tune": -23
+ },
+ {
+  "file": "kalimba-02-76.flac",
+  "key": 76,
+  "zone": 1,
+  "tune": -23
+ },
+ {
+  "file": "kalimba-02-77.flac",
+  "key": 77,
+  "zone": 1,
+  "tune": -29
+ },
+ {
+  "file": "kalimba-02-79.flac",
+  "key": 79,
+  "zone": 1,
+  "tune": -19
+ },
+ {
+  "file": "kalimba-02-81.flac",
+  "key": 81,
+  "zone": 1,
+  "tune": -18
+ },
+ {
+  "file": "kalimba-02-83.flac",
+  "key": 83,
+  "zone": 1,
+  "tune": -28
+ },
+ {
+  "file": "kalimba-02-84.flac",
+  "key": 84,
+  "zone": 1,
+  "tune": -31
+ },
+ {
+  "file": "kalimba-02-86.flac",
+  "key": 86,
+  "zone": 1,
+  "tune": -21
+ },
+ {
+  "file": "kalimba-02-88.flac",
+  "key": 88,
+  "zone": 1,
+  "tune": -6
+ },
+ {
+  "file": "kalimba-03-53.flac",
+  "key": 53,
+  "zone": 2,
+  "tune": -9
+ },
+ {
+  "file": "kalimba-03-55.flac",
+  "key": 55,
+  "zone": 2,
+  "tune": -16
+ },
+ {
+  "file": "kalimba-03-57.flac",
+  "key": 57,
+  "zone": 2,
+  "tune": -16
+ },
+ {
+  "file": "kalimba-03-59.flac",
+  "key": 59,
+  "zone": 2,
+  "tune": -33
+ },
+ {
+  "file": "kalimba-03-60.flac",
+  "key": 60,
+  "zone": 2,
+  "tune": -2
+ },
+ {
+  "file": "kalimba-03-62.flac",
+  "key": 62,
+  "zone": 2,
+  "tune": -10
+ },
+ {
+  "file": "kalimba-03-64.flac",
+  "key": 64,
+  "zone": 2,
+  "tune": 0
+ },
+ {
+  "file": "kalimba-03-65.flac",
+  "key": 65,
+  "zone": 2,
+  "tune": -24
+ },
+ {
+  "file": "kalimba-03-67.flac",
+  "key": 67,
+  "zone": 2,
+  "tune": -43
+ },
+ {
+  "file": "kalimba-03-71.flac",
+  "key": 71,
+  "zone": 2,
+  "tune": -17
+ },
+ {
+  "file": "kalimba-03-72.flac",
+  "key": 72,
+  "zone": 2,
+  "tune": -25
+ },
+ {
+  "file": "kalimba-03-74.flac",
+  "key": 74,
+  "zone": 2,
+  "tune": -23
+ },
+ {
+  "file": "kalimba-03-76.flac",
+  "key": 76,
+  "zone": 2,
+  "tune": -23
+ },
+ {
+  "file": "kalimba-03-77.flac",
+  "key": 77,
+  "zone": 2,
+  "tune": -29
+ },
+ {
+  "file": "kalimba-03-79.flac",
+  "key": 79,
+  "zone": 2,
+  "tune": -19
+ },
+ {
+  "file": "kalimba-03-81.flac",
+  "key": 81,
+  "zone": 2,
+  "tune": -18
+ },
+ {
+  "file": "kalimba-03-83.flac",
+  "key": 83,
+  "zone": 2,
+  "tune": -28
+ },
+ {
+  "file": "kalimba-03-84.flac",
+  "key": 84,
+  "zone": 2,
+  "tune": -31
+ },
+ {
+  "file": "kalimba-03-86.flac",
+  "key": 86,
+  "zone": 2,
+  "tune": -21
+ },
+ {
+  "file": "kalimba-03-88.flac",
+  "key": 88,
+  "zone": 2,
+  "tune": -6
+ }
+]

@@ -6,6 +6,7 @@
   index.html installer.js fm1ota.js fm1pkg.js            the page (web/)
   firmware/audiobase-VERSION.fwsc                        the package
   firmware/manifest.json                                 its title, identity, size and SHA-256 (the page checks it)
+  emu/                                                   the browser emulator (web/emu/, tools/vendor_emu.sh), this firmware in its catalog
   firmware/SHA256SUMS LICENSE LICENSING.md LICENSES/     what goes with the package (GPL-3.0, the SDK's Apache-2.0)
 
   python3 web/make_site.py --release build/release-X.Y   the release folder of tools/release.py
@@ -27,6 +28,9 @@ import fm1_install  # noqa: E402
 
 REPO = "https://github.com/stevexfer/FM1_AudioBase"
 PAGE = ["index.html", "installer.js", "fm1ota.js", "fm1pkg.js"]
+AUTHOR = "stevexfer"
+# the emulator's header links its SMK-37 page, which is not copied
+EMU_DEVICES = '<nav class="devices" aria-label="Device"><span aria-current="page">FM-1</span><a href="smk37/">SMK-37</a></nav>'
 LOADER_MARK = b"FELUCCA-LOADER-1"
 PACKAGES = [
     {"id": "audiobase", "suffix": "", "title": "FM1_AudioBase", "tag": "",
@@ -47,6 +51,25 @@ def describe(meta, file, raw, version):
         raise SystemExit(f"{file}: no Felucca update loader in it")
     return {"id": meta["id"], "file": file, "title": meta["title"], "tag": meta["tag"], "desc": meta["desc"],
             "version": version, "product": product, "size": len(raw), "sha256": hashlib.sha256(raw).hexdigest()}
+
+
+def emulator(out, listed, version):
+    """The emulator at emu/, its catalog the packages: their codec at 48,076.9 Hz (an I2S frame
+    20.8 us; the context at 48 kHz), a computer on the USB port playing into them."""
+    emu = HERE / "emu"
+    if not (emu / "fm1_web.wasm").exists():
+        raise SystemExit(f"{emu}: no emulator (tools/vendor_emu.sh ../FM-1Ception)")
+    shutil.copytree(emu, out / "emu")
+    page = out / "emu" / "index.html"
+    html = page.read_text(encoding="utf-8")
+    if EMU_DEVICES not in html:
+        raise SystemExit(f"{page}: its device links have changed (make_site.py's EMU_DEVICES)")
+    page.write_text(html.replace(EMU_DEVICES, ""), encoding="utf-8")
+    firmwares = [{"id": p["id"], "name": p["title"], "version": version, "author": AUTHOR, "license": "GPL-3.0",
+                  "about": p["desc"], "repo": REPO, "package": f"../firmware/{p['file']}",
+                  "usb": True, "rate": 48000, "frameNs": 20800} for p in listed]
+    (out / "emu" / "firmwares.json").write_text(json.dumps({"default": firmwares[0]["id"], "firmwares": firmwares},
+                                                           indent=1) + "\n", encoding="utf-8")
 
 
 def sources(a):
@@ -85,6 +108,7 @@ def main():
     shutil.copy(SRC / "LICENSE", fw / "LICENSE")
     shutil.copy(SRC / "LICENSING.md", fw / "LICENSING.md")
     shutil.copytree(SRC / "LICENSES", fw / "LICENSES")
+    emulator(a.out, listed, version)
     (a.out / ".nojekyll").write_text("")
     for p in listed:
         print(f"site: firmware/{p['file']}  {p['size']} B  {p['product']}  {p['sha256'][:12]}")
