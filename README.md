@@ -21,7 +21,10 @@ between the USB audio and the volume.
 - **GLO** toggles the visualizer (the waveform, fed back on itself; MOOD_FM1's), GLO lit while it shows.
 - USB-MIDI and TRS MIDI in are kept running (drained), so the installers always reach the FM-1.
 
-Tested on an FM-1: both USB audio streams, MASTER and the visualizer.
+Tested on an FM-1: both USB audio streams, MASTER and the visualizer. 
+
+PLEASE NOTE: THIS IS VERY EARLY DEVELOPMENT, 0.1 means 0.1 :).  
+I welcome pull requests that improve while keeping the premise simple!
 
 > [!WARNING]
 > **Installing custom firmware is at your own risk.** FM1_AudioBase is unofficial firmware, provided as is, without
