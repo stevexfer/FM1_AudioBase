@@ -82,6 +82,8 @@ A release is a tag `vX.Y` (one digit each: the package identity is `FM-1_9XY`).
    test, and creates the GitHub release with `audiobase-X.Y.fwsc`, `SHA256SUMS` and the licences.
 4. It then starts `.github/workflows/pages.yml`, which takes the package from the release, checks it against
    `SHA256SUMS`, makes the site (`web/make_site.py --release`) and deploys it to GitHub Pages.
+5. From then on every push to `main` that changes `web/` publishes the site again, with the latest release's
+   package (`pages.yml`; run by hand it takes a version, blank for the latest).
 
 The same locally: `tools/release.py X.Y` makes `build/release-X.Y/`, and
 `python3 web/make_site.py --release build/release-X.Y` the site.
